@@ -28,17 +28,17 @@ jobs:
     - name: Run Smoke test
       run: |
         source flaskappenv/bin/activate
-        python3 -m unittest smoke_test.py
+        python3 -m unittest tests/smoke_test.py
 
     - name: Run Unit test
       run: |
         source flaskappenv/bin/activate
-        python3 -m unittest unit_test.py
+        python3 -m unittest tests/unit_test.py
         
     - name: Run integration test
       run: |
         source flaskappenv/bin/activate
-        python3 -m unittest integration_test.py
+        python3 -m unittest tests/integration_test.py
 
     - name: Docker Login
       uses: docker/login-action@v3
