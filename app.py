@@ -52,7 +52,7 @@ def home():
 			error_msg = f"Error processing input: {e}"
 			return render_template('form.html', error=error_msg)
 	# GET method: show the input form
-	return render_template('form.html', error=error_msg)
+	return render_template('form.html')
 
 
 	if __name__ == '__main__':
