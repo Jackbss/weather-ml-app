@@ -51,6 +51,7 @@ jobs:
       with:
         context: .
         push: false
+        load: true
         tags: weather-ml-app:test
 
     - name: Test Docker Container Launch
