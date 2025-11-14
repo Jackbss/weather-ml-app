@@ -56,5 +56,5 @@ jobs:
     - name: Test Docker Container Launch
       run: |
           echo "Testing container launch..."
-          docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/weather-ml-app:v1 python --version
+          docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/weather-ml-app:test python --version
    
