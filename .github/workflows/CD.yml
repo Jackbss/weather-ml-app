@@ -1,0 +1,23 @@
+name: CD – Deploy to Kubernetes
+
+on:
+  workflow_run:
+    workflows: ["CI Pipeline"] 
+    types:
+      - completed
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Deploy to Kubernetes (rolling update)
+      run: |
+        kubect1 set image deployment/weather-app weather-ml-app=${{ secrets.DOCKERHUB-USERNAME }}/weather-ml-app:1.0
+        
+        kubectl rollout status deployment/weather-ml-app
