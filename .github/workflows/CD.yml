@@ -16,6 +16,12 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Configure access to Kubernetes
+      run: |
+        mkdir -p ~/.kube
+        echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
+
+
     - name: Deploy to Kubernetes (rolling update)
       run: |
         kubectl set image deployment/weather-app weather-ml-app=${{ secrets.DOCKERHUB-USERNAME }}/weather-ml-app:1.0
