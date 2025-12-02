@@ -46,16 +46,19 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Build Docker Image
+    - name: Build & Push Docker Image
       uses: docker/build-push-action@v5
       with:
         context: .
-        push: false
-        load: true
-        tags: weather-ml-app:test
+        push: true
+        tags: |
+          ${{ secrets.DOCKERHUB_USERNAME }}/weather-ml-app:latest
+          ${{ secrets.DOCKERHUB_USERNAME }}/weather-ml-app:${{ github.sha }}
 
-    - name: Test Docker Container Launch
+    - name: Test Pushed Image Launch
       run: |
-        docker run --rm weather-ml-app:test python --version
+        docker pull ${{ secrets.DOCKERHUB_USERNAME }}/weather-ml-app:latest
+        docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/weather-ml-app:latest python --version
 
+  
    
