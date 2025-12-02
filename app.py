@@ -15,7 +15,8 @@ def classify_weather(features):
 	start = time.time()
 	prediction_index = model.predict(features)[0]
 	latency = round((time.time() - start) * 1000, 2) #we are here
-	prediction = weather_classes[1]
+    	# Map prediction index to class label
+	prediction = weather_classes[prediction_index]
 	
 	return prediction, latency
 
@@ -25,11 +26,11 @@ def home():
 	if request.method == 'POST':
 		try:
 			# Extract floats from form data
-			temperature = request.form['temperature']
-			pressure = request.form['pressure']
-			humidity = request.form['humidity']
-			wind_speed = request.form['wind_speed']
-			wind_deg = request.form['wind_deg']
+			temperature = float(request.form['temperature'])
+			pressure = float(request.form['pressure'])
+			humidity = float(request.form['humidity'])
+			wind_speed = float(request.form['wind_speed'])
+			wind_deg = float(request.form['wind_deg'])
 			rain_1h = float(request.form.get('rain_1h', 0) or 0)
 			rain_3h = float(request.form.get('rain_3h', 0) or 0)
 			snow = float(request.form.get('snow', 0) or 0)
@@ -54,5 +55,5 @@ def home():
 	return render_template('form.html')
 
 
-if __name__ == '__main__':
-	app.run(host="0.0.0.0", port=5000)
+	if __name__ == '__main__':
+		app.run(host="0.0.0.0", port=5000)
