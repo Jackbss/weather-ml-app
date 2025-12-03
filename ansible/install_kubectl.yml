@@ -1,62 +1,56 @@
 name: Deploy Weather App to Kubernetes
 hosts: localhost
-user: ubuntu
-become: no
+---
+# ------------------------------------------------------
+# Play 1: Deploy Weather App to Kubernetes
+# ------------------------------------------------------
+- name: Deploy Weather App
+  hosts: localhost
+  user: ubuntu
+  become: no
 
   vars:
-    docker_image: adamstephen/weather-ml-app:1.0
+    docker_image: "adamstephen/weather-ml-app:1.0"
 
   tasks:
-    
-name: Create Kubernetes Deployment
-    shell:
-      cmd: kubectl create deployment weather-app --image={{ docker_image }}
+    - name: Create Kubernetes Deployment
+      ansible.builtin.command: >
+        kubectl create deployment weather-app --image={{ docker_image }}
 
-    
-name: Expose Deployment as NodePort Service
-    shell:
-      cmd: kubectl expose deployment weather-app --type=NodePort --port=5000
+    - name: Expose Deployment as NodePort Service
+      ansible.builtin.command: >
+        kubectl expose deployment weather-app --type=NodePort --port=5000
 
-    
-name: Scale Deployment to 3 replicas
-    shell:
-      cmd: kubectl scale deployment weather-app --replicas=3
-name: Install Kubectl and Minikube
-hosts: localhost
-user: ubuntu
-become: yes
+    - name: Scale Deployment to 3 replicas
+      ansible.builtin.command: >
+        kubectl scale deployment weather-app --replicas=3
+
+
+# ------------------------------------------------------
+# Play 2: Install Kubectl and Minikube
+# ------------------------------------------------------
+- name: Install Kubectl and Minikube
+  hosts: localhost
+  user: ubuntu
+  become: yes
 
   tasks:
-    
-name: Update APT Package Manager
-    apt:
-      update_cache: yes
+    - name: Update APT Package Manager
+      ansible.builtin.apt:
+        update_cache: yes
 
-    
-name: Install apt-transport-https
-    apt:
-      name: apt-transport-https
-      state: present
+    - name: Install apt-transport-https
+      ansible.builtin.apt:
+        name: apt-transport-https
+        state: present
 
-    
-name: Install Kubectl via Snap
-    snap:
-      name: kubectl
-      classic: yes
+    - name: Install Kubectl via Snap
+      community.general.snap:
+        name: kubectl
+        classic: yes
 
-    
-name: Download Minikube
-    shell:
-      cmd: curl -Lo /usr/local/bin/minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-
-    
-name: Make Minikube executable
-    file:
-      path: /usr/local/bin/minikube
-      mode: '0755'
-
-    
-name: Start Minikube
-    become: no
-    shell:
-      cmd: minikube start --driver=docker
+    - name: Download Minikube
+      ansible.builtin.get_url:
+        url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+        dest: /usr/local/bin/minikube
+        mode: '0755'
