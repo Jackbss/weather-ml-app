@@ -1,56 +1,32 @@
-name: Deploy Weather App to Kubernetes
-hosts: localhost
 ---
-# ------------------------------------------------------
-# Play 1: Deploy Weather App to Kubernetes
-# ------------------------------------------------------
-- name: Deploy Weather App
-  hosts: localhost
-  user: ubuntu
-  become: no
-
-  vars:
-    docker_image: "adamstephen/weather-ml-app:1.0"
-
-  tasks:
-    - name: Create Kubernetes Deployment
-      ansible.builtin.command: >
-        kubectl create deployment weather-app --image={{ docker_image }}
-
-    - name: Expose Deployment as NodePort Service
-      ansible.builtin.command: >
-        kubectl expose deployment weather-app --type=NodePort --port=5000
-
-    - name: Scale Deployment to 3 replicas
-      ansible.builtin.command: >
-        kubectl scale deployment weather-app --replicas=3
-
-
-# ------------------------------------------------------
-# Play 2: Install Kubectl and Minikube
-# ------------------------------------------------------
-- name: Install Kubectl and Minikube
+- name: Install kubectl and Minikube
   hosts: localhost
   user: ubuntu
   become: yes
+  gather_facts: no
 
   tasks:
-    - name: Update APT Package Manager
-      ansible.builtin.apt:
+    - name: Update apt cache
+      apt:
         update_cache: yes
 
-    - name: Install apt-transport-https
-      ansible.builtin.apt:
-        name: apt-transport-https
+    - name: Install dependencies
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
         state: present
 
-    - name: Install Kubectl via Snap
-      community.general.snap:
+    - name: Install kubectl
+      snap:
         name: kubectl
         classic: yes
+        state: present
 
     - name: Download Minikube
-      ansible.builtin.get_url:
+      get_url:
         url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
         dest: /usr/local/bin/minikube
         mode: '0755'
+
