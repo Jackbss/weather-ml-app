@@ -23,7 +23,7 @@ jobs:
 
     - name: Create SSH key
       run: |
-        echo "${{ secrets.AWS_SSH_KEY }}" > key.pem
+        echo "${{ secrets.SSH_KEY }}" > key.pem
         chmod 600 key.pem
 
     - name: Deploy to Production Server
