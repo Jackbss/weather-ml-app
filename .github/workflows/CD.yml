@@ -11,27 +11,26 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
-
-    - name: Checkout repository
+    - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Create SSH key
+    - name: Create SSH key for server
       run: |
-        echo "${{ secrets.EC2_KEY }}" > key.pem
+        printf "%s" "${{ secrets.EC2_KEY }}" > key.pem
         chmod 400 key.pem
 
-    - name: Copy Ansible folder to EC2
+    - name: Copy Ansible directory to server
       run: |
-        scp -o StrictHostKeyChecking=no -i key.pem -r ansible ubuntu@${{ secrets.SERVER_IP }}:~/ansible
+        scp -o StrictHostKeyChecking=no \
+            -i key.pem -r ansible ubuntu@${{ secrets.SERVER_IP }}:~/weather-ml-app/ansible
 
-    - name: Run Ansible Playbooks on EC2
+    - name: Run Ansible Playbooks on server
       run: |
         ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@${{ secrets.SERVER_IP }} "
-          cd ansible &&
+          cd ~/weather-ml-app/ansible &&
           ansible-playbook install_kubectl.yml &&
           ansible-playbook install.yml &&
-          ansible-playbook deploy_weather_app.yml --extra-vars \"image=${{ secrets.DOCKERHUB_USERNAME }}/weather-ml-image:v1.3\" &&
+          ansible-playbook deploy_weather_app.yml --extra-vars 'image=${{ secrets.DOCKERHUB_USERNAME }}/weather-ml-image:v1.3' &&
           ansible-playbook deploy_scale.yml &&
           ansible-playbook rolling_update.yml
         "
-
