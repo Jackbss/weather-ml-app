@@ -26,10 +26,8 @@ jobs:
         echo "${{ secrets.AWS_SSH_KEY }}" > key.pem
         chmod 600 key.pem
 
-
-
     - name: Deploy to Production Server
       run: |
-        ssh -o StrictHostKeyChecking=no -i "${{ secrets.EC2_KEY }}" ubuntu@${{ secrets.SERVER_IP }} \
+        ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@${{ secrets.SERVER_IP }} \
         "kubectl set image deployment/weather-app weather-ml-app=${{ secrets.DOCKERHUB_USERNAME }}/weather-ml-app:1.0 &&
          kubectl rollout status deployment/weather-app"
