@@ -19,7 +19,8 @@ jobs:
     - name: Configure access to Kubernetes
       run: |
         mkdir -p ~/.kube
-        echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
+        printf "%s" "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
+
 
 
     - name: Deploy to Kubernetes (rolling update)
