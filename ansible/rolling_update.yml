@@ -5,10 +5,14 @@
   become: no
   gather_facts: no
 
+  vars:
+    new_image: "jbrady300/weather-ml-image:v1.3"
+
   tasks:
     - name: Set new image on deployment
       ansible.builtin.command: >
-        kubectl set image deployment/weather-app weather-app=adamstephen/weather-ml-app:2.0
+        kubectl set image deployment/weather-app
+        weather-ml-app={{ new_image }}
 
     - name: Wait for rollout to complete
       ansible.builtin.command: >
