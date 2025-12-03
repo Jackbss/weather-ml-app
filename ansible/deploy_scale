@@ -1,0 +1,10 @@
+name: Scale Weather App
+hosts: localhost
+user: ubuntu
+become: no
+
+tasks:
+
+    name: Scale deployment to 5 replicas
+    shell:
+    cmd: kubectl scale deployment weather-app --replicas=5
