@@ -35,4 +35,3 @@ jobs:
             "kubectl set image deployment/weather-app weather-ml-app=${{ secrets.DOCKERHUB_USERNAME }}/weather-ml-image:v1.3 &&
              kubectl rollout status deployment/weather-app"
 
-
