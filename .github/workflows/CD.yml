@@ -21,6 +21,11 @@ jobs:
         mkdir -p ~/.kube
         printf "%s" "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
 
+    - name: Create SSH key
+      run: |
+        echo "${{ secrets.AWS_SSH_KEY }}" > key.pem
+        chmod 600 key.pem
+
 
 
     - name: Deploy to Production Server
