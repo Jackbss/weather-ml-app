@@ -23,8 +23,8 @@ jobs:
 
 
 
-    - name: Deploy to Kubernetes (rolling update)
+    - name: Deploy to Production Server
       run: |
-        kubectl set image deployment/weather-app weather-ml-app=${{ secrets.DOCKERHUB-USERNAME }}/weather-ml-app:1.0
-        
-        kubectl rollout status deployment/weather-ml-app
+        ssh -o StrictHostKeyChecking=no -i "${{ secrets.EC2_KEY }}" ubuntu@${{ secrets.SERVER_IP }} \
+        "kubectl set image deployment/weather-app weather-ml-app=${{ secrets.DOCKERHUB_USERNAME }}/weather-ml-app:1.0 &&
+         kubectl rollout status deployment/weather-app"
