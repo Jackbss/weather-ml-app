@@ -52,8 +52,8 @@ jobs:
         context: .
         push: true
         tags: |
-          ${{ secrets.DOCKERHUB_USERNAME }}/weather-ml-app:v2
-          ${{ secrets.DOCKERHUB_USERNAME }}/weather-ml-app:${{ github.sha }}
+          ${{ secrets.DOCKERHUB_USERNAME }}/weather-ml-image:v2
+          ${{ secrets.DOCKERHUB_USERNAME }}/weather-ml-image:${{ github.sha }}
 
     - name: Test Pushed Image Launch
       run: |
