@@ -29,7 +29,7 @@ jobs:
         ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@${{ secrets.SERVER_IP }} "
           cd ~/weather-ml-app/ansible &&
           ansible-playbook install_kubectl.yml &&
-          ansible-playbook deploy_weather_app.yml --extra-vars 'image=${{ secrets.DOCKERHUB_USERNAME }}/weather-ml-image:v1.5' &&
+          ansible-playbook deploy_weather_app.yml --extra-vars 'image=${{ secrets.DOCKERHUB_USERNAME }}/weather-ml-image:v2' &&
           ansible-playbook deploy_scale.yml &&
           ansible-playbook rolling_update.yml
         "
