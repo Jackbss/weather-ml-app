@@ -19,6 +19,6 @@ spec:
     spec:
       containers:
         - name: weather-ml-app
-          image: jbrady300/weather-ml-image:v1.3
+          image: jbrady300/weather-ml-image:v2
           ports:
             - containerPort: 5000
