@@ -58,7 +58,7 @@ jobs:
     - name: Test Pushed Image Launch
       run: |
         docker pull ${{ secrets.DOCKERHUB_USERNAME }}/weather-ml-image:v2
-        docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/weather-ml-image:latest python --version
+        docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/weather-ml-image:v2 python --version
 
   
    
