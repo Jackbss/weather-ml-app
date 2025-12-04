@@ -6,7 +6,7 @@
   gather_facts: no
 
   vars:
-    new_image: "jbrady300/weather-ml-image:v1.5"
+    new_image: "jbrady300/weather-ml-image:v2"
 
   tasks:
     - name: Set new image on deployment
