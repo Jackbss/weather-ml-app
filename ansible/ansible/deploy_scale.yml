@@ -1,9 +1,0 @@
----
-- name: Scale Weather App
-  hosts: localhost
-  become: no
-  gather_facts: no
-
-  tasks:
-    - name: Scale deployment to 3 replicas
-      ansible.builtin.command: kubectl scale deployment weather-app --replicas=3
