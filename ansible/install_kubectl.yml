@@ -29,5 +29,14 @@
         url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
         dest: /usr/local/bin/minikube
         mode: '0755'
+- name: Start Minikube as ubuntu
+  hosts: localhost
+  user: ubuntu
+  become: no
+  gather_facts: no
+
+  tasks:
+    - name: Start Minikube
+      ansible.builtin.command: minikube start --driver=docker
 
 #1
