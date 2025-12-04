@@ -11,11 +11,7 @@
   tasks:
     - name: Set new image on deployment
       ansible.builtin.command: >
-
         kubectl set image deployment/weather-app weather-ml-app={{ new_image }}
-
-        kubectl set image deployment/weather-app
-        weather-ml-app={{ new_image }}
 
 
     - name: Wait for rollout to complete
