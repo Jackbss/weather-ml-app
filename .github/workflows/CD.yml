@@ -9,7 +9,11 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
-
+    env:
+      IMAGE_REPO: ${{ secrets.DOCKERHUB_USERNAME }}/weather-ml-image
+      # Use the SAME pattern as CI, but based on the CI workflow run_number
+      IMAGE_TAG: v2.${{ github.event.workflow_run.run_number }}
+      
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -29,7 +33,9 @@ jobs:
         ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@${{ secrets.SERVER_IP }} "
           cd ~/weather-ml-app/ansible &&
           ansible-playbook install_kubectl.yml &&
-          ansible-playbook deploy_weather_app.yml --extra-vars 'image=${{ secrets.DOCKERHUB_USERNAME }}/weather-ml-image:v2' &&
+          ansible-playbook deploy_weather_app.yml \
+            --extra-vars 'image=${{ env.IMAGE_REPO }}:${{ env.IMAGE_TAG }}' &&
           ansible-playbook deploy_scale.yml &&
-          ansible-playbook rolling_update.yml
+          ansible-playbook rolling_update.yml \
+            --extra-vars 'image=${{ env.IMAGE_REPO }}:${{ env.IMAGE_TAG }}'
         "
