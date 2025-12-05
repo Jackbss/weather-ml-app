@@ -6,7 +6,7 @@
   gather_facts: no
 
   vars:
-    new_image: "{{ image | default('jbrady300/weather-ml-app:latest') }}"
+    new_image: "{{ image }}"
 
   tasks:
     - name: Set new image on deployment
