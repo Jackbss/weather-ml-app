@@ -1,6 +1,6 @@
 ---
 - name: Deploy Weather App to Kubernetes
-  - hosts: localhost
+  hosts: localhost
   connection: local
 
   user: ubuntu
