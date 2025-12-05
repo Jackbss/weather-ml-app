@@ -52,12 +52,12 @@ jobs:
         context: .
         push: true
         tags: |
-          ${{ secrets.DOCKERHUB_USERNAME }}/weather-ml-image:v2
+          ${{ secrets.DOCKERHUB_USERNAME }}/weather-ml-image:latest
           ${{ secrets.DOCKERHUB_USERNAME }}/weather-ml-image:${{ github.sha }}
 
     - name: Test Pushed Image Launch
       run: |
-        docker pull ${{ secrets.DOCKERHUB_USERNAME }}/weather-ml-image:v2
+        docker pull ${{ secrets.DOCKERHUB_USERNAME }}/weather-ml-image:latest
         docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/weather-ml-image:v2 python --version
 
   
