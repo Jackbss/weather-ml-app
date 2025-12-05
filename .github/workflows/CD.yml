@@ -31,5 +31,5 @@ jobs:
           ansible-playbook install_kubectl.yml &&
           ansible-playbook deploy_weather_app.yml --extra-vars 'image=${{ secrets.DOCKERHUB_USERNAME }}/weather-ml-image:${{ github.event.workflow_run.head_sha }}' &&
           ansible-playbook deploy_scale.yml &&
-          ansible-playbook rolling_update.yml
+          ansible-playbook rolling_update.yml --extra-vars 'image=${{ secrets.DOCKERHUB_USERNAME }}/weather-ml-image:${{ github.event.workflow_run.head_sha }}'
         "
