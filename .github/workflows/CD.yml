@@ -28,8 +28,7 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@${{ secrets.SERVER_IP }} "
           cd ~/weather-ml-app/ansible &&
-          ansible-playbook install_kubectl.yml &&
-          ansible-playbook deploy_weather_app.yml --extra-vars 'image=${{ secrets.DOCKERHUB_USERNAME }}/weather-ml-image:${{ github.event.workflow_run.head_sha }}' &&
-          ansible-playbook deploy_scale.yml &&
-          ansible-playbook rolling_update.yml --extra-vars 'image=${{ secrets.DOCKERHUB_USERNAME }}/weather-ml-image:${{ github.event.workflow_run.head_sha }}'
-        "
+            ansible-playbook install_kubectl.yml &&
+            ansible-playbook deploy_weather_app.yml \--extra-vars 'image=${{ secrets.DOCKERHUB_USERNAME }}/weather-ml-app:latest' &&
+            ansible-playbook deploy_scale.yml &&
+            ansible-playbook rolling_update.yml \--extra-vars 'image=${{ secrets.DOCKERHUB_USERNAME }}/weather-ml-app:latest'"
