@@ -25,8 +25,8 @@ jobs:
 
     - name: Copy manifests and Ansible to server
       run: |
-        scp -o StrictHostKeyChecking=no \-i key.pem -r ansible ubuntu@${{ secrets.SERVER_IP }}:~/weather-ml-app/ansible
-        scp -o StrictHostKeyChecking=no \-i key.pem -r k8s ubuntu@${{ secrets.SERVER_IP }}:~/weather-ml-app/k8s
+        scp -o StrictHostKeyChecking=no -i key.pem -r ansible ubuntu@${{ secrets.SERVER_IP }}:~/weather-ml-app/ansible
+        scp -o StrictHostKeyChecking=no -i key.pem -r k8s ubuntu@${{ secrets.SERVER_IP }}:~/weather-ml-app/k8s
         
     - name: Run Ansible Playbooks on server
       run: |
