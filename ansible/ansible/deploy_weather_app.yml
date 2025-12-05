@@ -5,15 +5,7 @@
   become: no
   gather_facts: no
 
-  vars:
-    image: "{{ image }}"
-
   tasks:
-    - name: Render Deployment manifest from template
-      template:
-        src: /home/ubuntu/weather-ml-app/k8s/deployment.yaml
-        dest: /home/ubuntu/weather-ml-app/k8s/deployment.rendered.yaml
-
     - name: Apply Deployment manifest
       ansible.builtin.command: >
         kubectl apply -f /home/ubuntu/weather-ml-app/k8s/deployment.yaml
