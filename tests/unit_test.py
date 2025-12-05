@@ -42,7 +42,7 @@ class TestUnit(unittest.TestCase):
 		class_result, _ = classify_weather(test_input) 
 		
 		# Ensure that 'rainy' class is returned
-		self.assertEqual(class_result, 'rain')
+		self.assertEqual(class_result, 'rainy')
 		
 	def test_cloudy_classifcation_output(self):
 
