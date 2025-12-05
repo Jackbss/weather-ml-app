@@ -16,7 +16,7 @@
 
     - name: Apply Deployment manifest
       ansible.builtin.command: >
-        kubectl apply -f /home/ubuntu/weather-ml-app/k8s/deployment.yaml
+        kubectl apply -f /home/ubuntu/weather-ml-app/k8s/deployment.rendered.yaml
 
     - name: Apply Service manifest
       ansible.builtin.command: >
