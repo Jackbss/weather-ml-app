@@ -11,7 +11,6 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     env:
       IMAGE_REPO: ${{ secrets.DOCKERHUB_USERNAME }}/weather-ml-image
-      # Use the SAME pattern as CI, but based on the CI workflow run_number
       IMAGE_TAG: v2.${{ github.event.workflow_run.run_number }}
       
     steps:
